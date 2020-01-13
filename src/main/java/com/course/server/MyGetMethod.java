@@ -14,58 +14,66 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api(value="/",description="è¿™æ˜¯æˆ‘å…¨éƒ¨çš„getæ–¹æ³•")
 public class MyGetMethod {
-	//Á½¸ögetCookiesÃ»ÓĞ¹ØÏµ£¬Ò»¸öÊÇ·ÃÎÊÂ·¾¶Ò»¸öÊÇ·½·¨Ãû
+	//ï¿½ï¿½ï¿½ï¿½getCookiesÃ»ï¿½Ğ¹ï¿½Ïµï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Â·ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value="/getCookies",method=RequestMethod.GET)
+	@ApiOperation(value="é€šè¿‡è¿™ä¸ªæ–¹æ³•å¯ä»¥è·å–åˆ°cookies")
 	public String getCookies(HttpServletResponse response) {
-		//HttpserverletRequest ×°ÇëÇóĞÅÏ¢µÄÀà
-		//HttpserverletResponse ×°ÏìÓ¦ĞÅÏ¢µÄÀà
+		//HttpserverletRequest è£…è¯·æ±‚ä¿¡æ¯çš„ç±»
+		//HttpserverletResponse è£…å“åº”ä¿¡æ¯çš„ç±»
 		Cookie cookie = new Cookie("login", "true");
 		response.addCookie(cookie);
-		return "¹§Ï²Äã»ñµÃcookiesĞÅÏ¢³É¹¦";
+		return "æ­å–œä½ è·å¾—cookiesä¿¡æ¯";
 	}
 	/**
 	 * 
-	 * ÒªÇó¿Í»§¶ËĞ¯´øcookies·ÃÎÊ
+	 *è¿™æ˜¯ä¸€ä¸ªéœ€è¦æºå¸¦cookiesä¿¡æ¯æ‰èƒ½è®¿é—®çš„getè¯·æ±‚
 	 */
 	@RequestMapping(value="/getwithcookies",method=RequestMethod.GET)
+	@ApiOperation(value="è¿™æ˜¯ä¸€ä¸ªéœ€è¦æºå¸¦cookiesä¿¡æ¯æ‰èƒ½è®¿é—®çš„getè¯·æ±‚")
 	public String getWithCookies(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if (Objects.isNull(cookies)) {
-			return"Äã±ØĞëĞ¯´øcookiesĞÅÏ¢À´";
+			return"ä½ å¿…é¡»æºå¸¦cookiesä¿¡æ¯";
 		}
 		for(Cookie cookie:cookies) {
 			if (cookie.getName().equals("login")&&cookie.getValue().equals("true")) {
-				return "ÕâÊÇÒ»¸öĞèÒªĞ¯´øcookiesĞÅÏ¢²ÅÄÜ·ÃÎÊµÄgetÇëÇó";
+				return "è¿™æ˜¯ä¸€ä¸ªéœ€è¦æºå¸¦cookiesä¿¡æ¯æ‰èƒ½è®¿é—®çš„getè¯·æ±‚";
 			}
 			
 		}
-		return"Äã±ØĞëĞ¯´øcookiesĞÅÏ¢À´";
+		return"æ­å–œä½ è®¿é—®getè¯·æ±‚æˆåŠŸ";
 	}
 	/**
-	 * ¿ª·¢Ò»¸öĞèÒªĞ¯´ø²ÎÊı²ÅÄÜµ±ÎÊµÄgetÇëÇó
-	 * µÚÒ»ÖÖÊµÏÖ·½Ê½url:key=value&key=value
+	 * å¼€å‘ä¸€ä¸ªéœ€è¦æºå¸¦å‚æ•°æ‰èƒ½è®¿é—®çš„getè¯·æ±‚
+	 * ç¬¬ä¸€ç§å®ç°æ–¹æ³•url:key=value&key=value
 	 * 
 	 * 
 	 */
 	@RequestMapping(value="/getwithparam",method=RequestMethod.GET)
+	@ApiOperation(value="éœ€è¦æºå¸¦å‚æ•°æ‰èƒ½è®¿é—®çš„getè¯·æ±‚æ–¹æ³•1")
 	public Map<String, Integer> getList(@RequestParam Integer start,@RequestParam Integer end){
 		Map<String, Integer> mylist=new HashMap<>();
-		mylist.put("Ğ¬",400);
-		mylist.put("¸É´àÃæ",1);
+		mylist.put("é‹",400);
+		mylist.put("é¢",1);
 		return mylist;
 	}
 	/**
-	 * µÚ¶şÖÖĞèÒªĞ¯´ø²ÎÊı·ÃÎÊµÄget·½·¨
+	 * ç¬¬äºŒç§éœ€è¦æºå¸¦å‚æ•°è®¿é—®ä½ çš„getè¯·æ±‚
 	 * url:ip:port/getwithparam/10/20
-	 * ÓëµÚÒ»ÖÖ·½Ê½µÄÇø±ğÔÚÓÚÇëÇó·½Ê½²»Í¬
+	 * 
 	 */
 	@RequestMapping(value="/getwithparam/{start}/{end}")
+	@ApiOperation(value="éœ€è¦æºå¸¦å‚æ•°æ‰èƒ½è®¿é—®çš„getè¯·æ±‚æ–¹æ³•2")
 	public Map myGetList(@PathVariable Integer start,@PathVariable Integer end) {
 		Map<String, Integer> mylist=new HashMap<>();
-		mylist.put("Ğ¬",400);
-		mylist.put("¸É´àÃæ",1);
+		mylist.put("é‹",400);
+		mylist.put("é¢",1);
 		return mylist;
 		
 	}
